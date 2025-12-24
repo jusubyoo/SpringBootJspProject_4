@@ -3,6 +3,7 @@ package com.sist.web.restcontroller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 // front 연동 => vue : pinia => vue 의 문법 => javascript
@@ -48,6 +49,30 @@ public class SeoulRestController {
 			map.put("totalpage", totalpage);
 			map.put("type", type);
 			
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/seoul/detail_vue/")
+	public ResponseEntity<Map> seoul_detail_vue(@RequestParam("no") int no, @RequestParam("type") int type)
+	{
+		Map map=new HashMap();
+		try
+		{
+			map.put("table_name", tables[type]);
+			map.put("no", no);
+			SeoulVO vo=sService.seoulDetailData(map);
+			String[] datas=vo.getAddress().split(" ");
+			// 03718 서울특별시 서대문구 연희로32길 51 (연희동)
+			List<FoodVO> list=sService.foodNearData4(datas[2]);
+			// => 주변 맛집
+			map=new HashMap();
+			map.put("vo", vo);
+			map.put("list", list);
 		}catch(Exception ex)
 		{
 			ex.printStackTrace();
