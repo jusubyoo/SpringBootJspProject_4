@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,15 +57,80 @@ public class BoardRestController {
 		--------------------------------------- JPA
 	*/
 	@PostMapping("/board/insert_vue/")
-	public ResponseEntity<Map> board_insert(@RequestBody BoardVO vo)
+	public ResponseEntity<Map> board_insert_vue(@RequestBody BoardVO vo)
 	{
 		Map map = new HashMap();		
 		
-		try {
+		try 
+		{
 			bService.boardInsert(vo);
 			map.put("msg", "yes");
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception ex) {
+			ex.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+				
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+	
+	@GetMapping("/board/detail_vue/")
+	public ResponseEntity<BoardVO> board_detail_vue(@RequestParam("no") int no)
+	{
+		BoardVO vo=new BoardVO();
+		try
+		{
+			vo=bService.boardDetailData(no);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/board/delete_vue/")
+	public ResponseEntity<Map> board_delete(@RequestParam("no") int no, @RequestParam("pwd") String pwd)
+	{
+		Map map=new HashMap();
+		try
+		{
+			String res=bService.boardDelete(no, pwd);
+			map.put("msg", res);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	// 수정
+	@GetMapping("/board/update_vue/")
+	public ResponseEntity<BoardVO> board_update_vue(@RequestParam("no") int no)
+	{
+		BoardVO vo=new BoardVO();
+		try
+		{
+			vo=bService.boardUpdateData(no);
+		}catch(Exception ex)
+		{
+			ex.printStackTrace();
+			return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(vo, HttpStatus.OK);
+	}
+	
+	@PostMapping("/board/update_ok_vue/")
+	public ResponseEntity<Map> board_update_ok_vue(@RequestBody BoardVO vo)
+	{
+		Map map = new HashMap();		
+		
+		try 
+		{
+			String res=bService.boardUpdate(vo);
+			map.put("msg", res);
+		}catch (Exception ex) {
+			ex.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 				

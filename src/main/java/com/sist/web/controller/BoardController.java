@@ -15,19 +15,33 @@ public class BoardController {
 		return "main/main";
 	}
 	
-	@GetMapping("board/insert")
+	@GetMapping("/board/insert")
 	public String board_insert(Model model)
 	{
 		model.addAttribute("main_jsp", "../board/insert.jsp");
 		return "main/main";
 	}
 	
-	/*
-	@GetMapping("board/detail")
+	
+	@GetMapping("/board/detail")
 	public String board_detail(Model model)
 	{
 		model.addAttribute("main_jsp", "../board/detail.jsp");
 		return "main/main";
 	}
-	*/
+	
+	@GetMapping("/board/update")
+	public String board_update(Model model)
+	{
+		model.addAttribute("main_jsp", "../board/update.jsp");
+		return "main/main";
+	}
+	
+	@GetMapping("/board/delete")
+	public String board_delete(Model model)
+	{
+		model.addAttribute("main_jsp", "../board/delete.jsp");
+		return "main/main";
+	}
+
 }

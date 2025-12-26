@@ -1,6 +1,7 @@
 
 package com.sist.web.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -30,7 +31,7 @@ public interface BoardMapper {
 	public void boardInsert(BoardVO vo);
 	
 	// 데이터 상세보기
-	@Update("UPDATE board SET "
+	@Update("UPDATE board_2 SET "
 			+ "hit = hit + 1 "
 			+ "WHERE no = #{no}")
 	public void updateHitIncrement(int no);
@@ -39,11 +40,14 @@ public interface BoardMapper {
 			+ "WHERE no = #{no}")
 	public BoardVO boardDetailData(int no);
 	// 데이터 수정
-	
-	
-	
+
 	// 데이터 삭제
-	
-	
-	
+	@Select("SELECT pwd FROM board_2 WHERE no=#{no}")
+	public String boardGetPassword(int no);
+	@Delete("DELETE FROM board_2 WHERE no=#{no}")
+	public void boardDelete(int no);
+	@Update("UPDATE board_2 SET "
+			+ "name=#{name},subject=#{subject},content=#{content} "
+			+ "WHERE no=#{no}")
+	public void boardUpdate(BoardVO vo);
 }
