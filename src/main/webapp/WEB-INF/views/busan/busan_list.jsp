@@ -50,7 +50,7 @@
 				Vue.onMounted(()=>{
 						store.busanListData(!params.has('type')?1:type)
 				})
-				/* if(!params.has('type'))
+				if(!params.has('type'))
 				{
 					Vue.onMounted(()=>{
 						store.busanListData(1)
@@ -61,7 +61,7 @@
 					Vue.onMounted(()=>{
 						store.busanListData(type)
 					})
-				} */
+				
 				return {
 					store
 				}
