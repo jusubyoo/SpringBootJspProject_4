@@ -56,6 +56,7 @@ jobs:
       - name: Deploy on server using DockerHub image
         run: |
           ssh ubuntu@3.39.11.32 << 'EOF'
+            sudo chmod +x /usr/local/bin/docker-compose
             cd /home/ubuntu/app
             docker-compose pull
             docker-compose down
