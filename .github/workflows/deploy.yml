@@ -2,7 +2,7 @@ name: Deploy with DockerHub to Ubuntu Server
 
 on:
   push:
-    #브런치 => main에서 Commit 
+    #브런치 => main에서 Commit 1
     branches:
       - main
 # Commit시에 작업 
