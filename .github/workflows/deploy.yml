@@ -2,7 +2,7 @@ name: Deploy with DockerHub to Ubuntu Server
 
 on:
   push:
-    #브런치 => main에서 Commit 1
+    #브런치 => main에서 Commit 3
     branches:
       - main
 # Commit시에 작업 
@@ -56,12 +56,9 @@ jobs:
       - name: Deploy on server using DockerHub image
         run: |
           ssh ubuntu@3.39.11.32 << 'EOF'
+            sudo chmod +x /usr/local/bin/docker-compose
             cd /home/ubuntu/app
             docker-compose pull
             docker-compose down
             docker-compose up -d
-            docker stop spring-cicd || true
-            docker rm spring-cicd || true
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:latest
-            docker run -d --name spring-cicd -p 9090:9090 ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:latest
           EOF
